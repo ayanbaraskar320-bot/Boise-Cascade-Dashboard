@@ -1,0 +1,5 @@
+{
+  "name": "Boise Cascade Digital Operations Dashboard",
+  "description": "A comprehensive digital dashboard for Boise Cascade to manage production (OEE), SOPs, maintenance, inventory, and supplier orders. It also includes an AI-powered image editing tool using Gemini.",
+  "requestFramePermissions": []
+}
