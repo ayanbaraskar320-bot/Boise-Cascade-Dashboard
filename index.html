@@ -8,6 +8,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
       tailwind.config = {
+        darkMode: 'class',
         theme: {
           extend: {
             colors: {
@@ -17,6 +18,14 @@
             },
           },
         },
+      }
+    </script>
+    <script>
+      // Apply theme from localStorage to prevent FOUC
+      if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+        document.documentElement.classList.add('dark')
+      } else {
+        document.documentElement.classList.remove('dark')
       }
     </script>
     <style>
@@ -56,7 +65,7 @@
 }
 </script>
 </head>
-  <body class="bg-bc-gray">
+  <body class="bg-bc-gray dark:bg-gray-900">
     <div id="root"></div>
     <script type="module" src="/index.tsx"></script>
   </body>

@@ -17,9 +17,9 @@ export const MOCK_PRODUCTION_TREND: ProductionData[] = [
 ];
 
 export const MOCK_SOPS: Sop[] = [
-  { id: 'SOP001', title: 'Plywood Press Startup Procedure', category: 'Machinery', steps: ['1. Check hydraulic fluid levels.', '2. Ensure safety guards are in place.', '3. Power on main control panel.', '4. Begin pre-heating sequence.'] },
-  { id: 'SOP002', title: 'Emergency Shutdown Protocol', category: 'Safety', steps: ['1. Hit the nearest E-Stop button.', '2. Evacuate the immediate area.', '3. Notify shift supervisor.', '4. Do not restart until cleared by maintenance.'] },
-  { id: 'SOP003', title: 'Veneer Lathe Blade Change', category: 'Maintenance', steps: ['1. Lockout/Tagout the machine.', '2. Release blade tension.', '3. Carefully remove old blade.', '4. Install new blade and set tension.'] },
+  { id: 'SOP001', title: 'Plywood Press Startup Procedure', category: 'Machinery', steps: ['Check hydraulic fluid levels.', 'Ensure safety guards are in place.', 'Power on main control panel.', 'Begin pre-heating sequence.'] },
+  { id: 'SOP002', title: 'Emergency Shutdown Protocol', category: 'Safety', steps: ['Hit the nearest E-Stop button.', 'Evacuate the immediate area.', 'Notify shift supervisor.', 'Do not restart until cleared by maintenance.'] },
+  { id: 'SOP003', title: 'Veneer Lathe Blade Change', category: 'Maintenance', steps: ['Lockout/Tagout the machine.', 'Release blade tension.', 'Carefully remove old blade.', 'Install new blade and set tension.'] },
 ];
 
 export const MOCK_MAINTENANCE_TICKETS: MaintenanceTicket[] = [

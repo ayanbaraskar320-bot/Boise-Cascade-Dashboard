@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
-import { MOCK_RAW_MATERIALS, MOCK_FINISHED_GOODS } from '../constants';
 import Card from './ui/Card';
 import Modal from './ui/Modal';
 import Button from './ui/Button';
 import { InventoryItem } from '../types';
-import { PencilIcon } from './icons/IconComponents';
+import { PencilIcon, DownloadIcon } from './icons/IconComponents';
+import { exportToCsv } from '../utils/exportUtils';
 
 
 const InventoryProgressBar: React.FC<{ item: InventoryItem }> = ({ item }) => {
@@ -14,16 +14,20 @@ const InventoryProgressBar: React.FC<{ item: InventoryItem }> = ({ item }) => {
   else if (percentage < 50) barColor = 'bg-yellow-500';
 
   return (
-    <div className="w-full bg-gray-200 rounded-full h-2.5">
+    <div className="w-full bg-gray-200 rounded-full h-2.5 dark:bg-gray-700">
       <div className={`${barColor} h-2.5 rounded-full`} style={{ width: `${percentage}%` }}></div>
     </div>
   );
 };
 
-const InventoryView: React.FC = () => {
-  const [rawMaterials, setRawMaterials] = useState<InventoryItem[]>(MOCK_RAW_MATERIALS);
-  const [finishedGoods, setFinishedGoods] = useState<InventoryItem[]>(MOCK_FINISHED_GOODS);
-  
+interface InventoryViewProps {
+  rawMaterials: InventoryItem[];
+  setRawMaterials: React.Dispatch<React.SetStateAction<InventoryItem[]>>;
+  finishedGoods: InventoryItem[];
+  setFinishedGoods: React.Dispatch<React.SetStateAction<InventoryItem[]>>;
+}
+
+const InventoryView: React.FC<InventoryViewProps> = ({ rawMaterials, setRawMaterials, finishedGoods, setFinishedGoods }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [currentItem, setCurrentItem] = useState<InventoryItem | null>(null);
   const [newStock, setNewStock] = useState<number>(0);
@@ -53,18 +57,26 @@ const InventoryView: React.FC = () => {
       setCurrentItem(null);
   };
 
+  const handleExportAll = () => {
+    const allInventory = [
+      ...rawMaterials.map(item => ({ ...item, type: 'Raw Material' })),
+      ...finishedGoods.map(item => ({ ...item, type: 'Finished Good' })),
+    ];
+    exportToCsv(allInventory, `inventory_all_${new Date().toISOString().split('T')[0]}.csv`);
+  };
+
   const InventoryList: React.FC<{ title: string; items: InventoryItem[], type: 'raw' | 'finished' }> = ({ title, items, type }) => (
     <Card>
       <h3 className="text-xl font-bold p-4">{title}</h3>
-      <ul className="divide-y divide-gray-200">
+      <ul className="divide-y divide-gray-200 dark:divide-gray-700">
         {items.map(item => (
           <li key={item.id} className="p-4 group">
             <div className="flex justify-between items-center mb-1">
               <p className="font-semibold">{item.name}</p>
               <div className="flex items-center gap-4">
-                 <p className="text-sm text-gray-600">{`${item.currentStock} / ${item.targetStock} ${item.unit}`}</p>
+                 <p className="text-sm text-gray-600 dark:text-gray-300">{`${item.currentStock} / ${item.targetStock} ${item.unit}`}</p>
                  <button onClick={() => openModal(item, type)} className="opacity-0 group-hover:opacity-100 transition-opacity text-bc-blue hover:text-bc-green focus:opacity-100 focus:ring-2 focus:ring-bc-blue rounded-full p-1">
-                     <PencilIcon />
+                     <PencilIcon className="dark:text-gray-300" />
                  </button>
               </div>
             </div>
@@ -77,6 +89,14 @@ const InventoryView: React.FC = () => {
   
   return (
     <>
+      <div className="flex justify-end mb-4">
+          <Button onClick={handleExportAll} variant="secondary">
+              <div className="flex items-center gap-2">
+                <DownloadIcon />
+                <span>Export All Inventory</span>
+              </div>
+          </Button>
+      </div>
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
         <InventoryList title="Raw Materials" items={rawMaterials} type="raw" />
         <InventoryList title="Finished Goods" items={finishedGoods} type="finished" />
@@ -85,13 +105,13 @@ const InventoryView: React.FC = () => {
       <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} title={`Adjust Stock for ${currentItem?.name}`}>
           <form onSubmit={handleStockUpdate}>
               <div className="space-y-2">
-                  <label htmlFor="stock" className="block text-sm font-medium text-gray-700">Current Stock ({currentItem?.unit})</label>
+                  <label htmlFor="stock" className="block text-sm font-medium text-gray-700 dark:text-gray-300">Current Stock ({currentItem?.unit})</label>
                   <input
                       type="number"
                       id="stock"
                       value={newStock}
                       onChange={(e) => setNewStock(Number(e.target.value))}
-                      className="w-full p-2 border border-gray-300 rounded-lg focus:ring-bc-green focus:border-bc-green"
+                      className="w-full p-2 border border-gray-300 rounded-lg focus:ring-bc-green focus:border-bc-green dark:bg-gray-700 dark:border-gray-600 dark:text-white"
                   />
               </div>
               <div className="flex justify-end pt-6">

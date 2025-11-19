@@ -40,8 +40,8 @@ const ImageEditorView: React.FC = () => {
     }, [originalImage, prompt]);
 
     const ImagePlaceholder: React.FC<{ text: string }> = ({ text }) => (
-        <div className="w-full h-full bg-gray-100 rounded-lg flex items-center justify-center border-2 border-dashed border-gray-300">
-            <p className="text-gray-500">{text}</p>
+        <div className="w-full h-full bg-gray-100 rounded-lg flex items-center justify-center border-2 border-dashed border-gray-300 dark:bg-gray-700/50 dark:border-gray-600">
+            <p className="text-gray-500 dark:text-gray-400">{text}</p>
         </div>
     );
 
@@ -51,12 +51,12 @@ const ImageEditorView: React.FC = () => {
                 {/* Left Panel: Inputs */}
                 <div className="space-y-4">
                     <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-1">1. Upload Image</label>
+                        <label className="block text-sm font-medium text-gray-700 mb-1 dark:text-gray-300">1. Upload Image</label>
                         <input
                             type="file"
                             accept="image/*"
                             onChange={handleFileChange}
-                            className="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-bc-green/10 file:text-bc-green hover:file:bg-bc-green/20"
+                            className="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-bc-green/10 file:text-bc-green hover:file:bg-bc-green/20 dark:text-gray-400 dark:file:bg-bc-green/20 dark:hover:file:bg-bc-green/30"
                         />
                     </div>
                     {originalImage && (
@@ -65,14 +65,14 @@ const ImageEditorView: React.FC = () => {
                         </div>
                     )}
                     <div>
-                        <label htmlFor="prompt" className="block text-sm font-medium text-gray-700 mb-1">2. Describe your edit</label>
+                        <label htmlFor="prompt" className="block text-sm font-medium text-gray-700 mb-1 dark:text-gray-300">2. Describe your edit</label>
                         <textarea
                             id="prompt"
                             rows={3}
                             value={prompt}
                             onChange={(e) => setPrompt(e.target.value)}
                             placeholder='e.g., "Add a retro filter" or "Remove the person in the background"'
-                            className="w-full p-2 border border-gray-300 rounded-lg focus:ring-bc-green focus:border-bc-green"
+                            className="w-full p-2 border border-gray-300 rounded-lg focus:ring-bc-green focus:border-bc-green dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:placeholder-gray-400"
                         />
                     </div>
                     <Button onClick={handleSubmit} disabled={isLoading || !originalImage || !prompt}>
@@ -83,10 +83,10 @@ const ImageEditorView: React.FC = () => {
 
                 {/* Right Panel: Output */}
                 <div className="flex flex-col space-y-4">
-                    <p className="block text-sm font-medium text-gray-700">Edited Image</p>
+                    <p className="block text-sm font-medium text-gray-700 dark:text-gray-300">Edited Image</p>
                     <div className="flex-grow w-full h-96 relative">
                         {isLoading && (
-                            <div className="absolute inset-0 bg-white/70 flex items-center justify-center rounded-lg z-10">
+                            <div className="absolute inset-0 bg-white/70 dark:bg-gray-800/70 flex items-center justify-center rounded-lg z-10">
                                 <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-bc-green"></div>
                             </div>
                         )}

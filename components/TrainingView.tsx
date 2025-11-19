@@ -31,7 +31,7 @@ const TrainingView: React.FC = () => {
     const TabButton: React.FC<{ id: string; label: string; }> = ({ id, label }) => (
         <button
             onClick={() => setActiveTab(id)}
-            className={`px-4 py-2 text-sm font-medium rounded-md ${activeTab === id ? 'bg-bc-green text-white' : 'text-gray-600 hover:bg-gray-200'}`}
+            className={`px-4 py-2 text-sm font-medium rounded-md transition-colors ${activeTab === id ? 'bg-bc-green text-white' : 'text-gray-600 hover:bg-gray-200 dark:text-gray-300 dark:hover:bg-gray-700'}`}
         >
             {label}
         </button>
@@ -40,24 +40,24 @@ const TrainingView: React.FC = () => {
     return (
         <>
             <Card>
-                <div className="p-4 border-b">
+                <div className="p-4 border-b dark:border-gray-700">
                     <h2 className="text-xl font-bold">Training & Support Center</h2>
-                    <p className="text-sm text-gray-600">Resources to help your team succeed with the new digital tools.</p>
+                    <p className="text-sm text-gray-600 dark:text-gray-400">Resources to help your team succeed with the new digital tools.</p>
                 </div>
                 <div className="p-4">
-                    <div className="flex space-x-2 border-b mb-4">
+                    <div className="flex space-x-2 border-b mb-4 dark:border-gray-700">
                         <TabButton id="operators" label="For Operators & Supervisors" />
                         <TabButton id="maintenance" label="For Maintenance Teams" />
                         <TabButton id="managers" label="For Engineers & Managers" />
                     </div>
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                         {trainingContent[activeTab].map((module, index) => (
-                            <div key={index} className="border rounded-lg p-4 hover:shadow-lg transition-shadow cursor-pointer" onClick={() => setSelectedModule(module)}>
+                            <div key={index} className="border rounded-lg p-4 hover:shadow-lg transition-shadow cursor-pointer dark:border-gray-700 dark:hover:bg-gray-700/50" onClick={() => setSelectedModule(module)}>
                                 <div className="flex items-center text-bc-blue mb-2">
                                     <BookOpenIcon />
                                     <h3 className="ml-2 font-semibold">{module.title}</h3>
                                 </div>
-                                <p className="text-sm text-gray-600">{module.description}</p>
+                                <p className="text-sm text-gray-600 dark:text-gray-400">{module.description}</p>
                             </div>
                         ))}
                     </div>
@@ -65,7 +65,7 @@ const TrainingView: React.FC = () => {
             </Card>
 
             <Modal isOpen={!!selectedModule} onClose={() => setSelectedModule(null)} title={selectedModule?.title || ''}>
-                <div>{selectedModule?.content}</div>
+                <div className="dark:text-gray-300">{selectedModule?.content}</div>
             </Modal>
         </>
     );
